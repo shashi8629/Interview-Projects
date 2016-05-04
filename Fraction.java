@@ -1,115 +1,192 @@
-package DataMining;
-
+package P1Final;
 /* Fraction.java */
-  
+
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-/** The Fraction class implements non-negative fractions, i.e., rational 
- * numbers.   
- */
 class Fraction {
-  /** Constructs a Fraction n/d. 
-   *  @param n is the numerator, assumed non-negative.
-   *  @param d is the denominator, assumed positive.
-   *  
-   */
-  Fraction(int n, int d) {
-    numerator = n; 
-    denominator = d;
-  }
 
-  /** Constructs a Fraction n/1. 
-   *  @param n is the numerator, assumed non-negative.
-   */
-  public Fraction(int n) {
-    this(n,1);
-  }
+	private long numerator;
+	private long denominator;
+	String fraction;
 
-  /** Constructs a Fraction 0/1. 
-   */
-  public Fraction() {
-    numerator = 0;
-    denominator = 1;
-  }
+	public Fraction(long Fraction) {
+		this(Fraction + "");
 
-  /** Converts this fraction to a string format: "numerator/denominator." 
-   *  Fractions are printed in reduced form (part of your assignment is 
-   *  to make this statement true).  
-   *  @return a String representation of this Fraction.
-   */
-  public String toString()   {
-    int thisGcd = gcd(numerator, denominator);
-    
-    return (numerator/thisGcd + "/" + denominator/thisGcd);
-  }
+	}
 
-  /** Calculates and returns the double floating point value of a fraction.
-   *  @return a double floating point value for this Fraction.
-   */
-  public double evaluate()
-    {
-      double n = numerator;	// convert to double
-      double d = denominator;	
-      return (n / d);		
-    }
+	public Fraction(String Fraction) {
+		this.fraction = Fraction;
+		if (fraction.contains("/")) {
+			String[] fract = fraction.split("/");
+			numerator = Integer.parseInt(fract[0]);
+			denominator = Integer.parseInt(fract[1]);
+			long hcfValue = hcf(numerator, denominator);
 
-  /** Add f2 to this fraction and return the result. 
-   * @param f2 is the fraction to be added.
-   * @return the result of adding f2 to this Fraction.
-   */
-  public Fraction add (Fraction f2) {
-    Fraction r = new Fraction((numerator * f2.denominator) + 
-			      (f2.numerator * denominator),
-			      (denominator * f2.denominator));    
-    return r;
-  }
+			if (numerator % hcfValue == 0)
+				numerator = numerator / hcfValue;
 
-  /** Computes the greatest common divisor (gcd) of the two inputs. 
-   * @param x is assumed positive
-   * @param y is assumed non-negative
-   * @return the gcd of x and y
-   */
-  static private int gcd (int x, int y) {
-    /* Remove the following line. */
-    return 1;
-  }
-    
-  /* private fields within a Fraction.           */ 
-  private int numerator;
-  private int denominator;
+			// System.out.println(" num"+numerator);
+			if (denominator % hcfValue == 0)
+				denominator = denominator / hcfValue;
+			// System.out.println(" denom "+denominator);
 
-  /** Put the Fraction class through some test sequences.
-   * @param argv is not used. 
-   */
-  public static void main(String[] argv) {
-	
-    /* Test all three contructors and toString. */
-    Fraction f0 = new Fraction();
-    Fraction f1 = new Fraction(3);
-    Fraction f2 = new Fraction(12, 20);
+		}
 
-    System.out.println("\nTesting constructors (and toString):");
-    System.out.println("The fraction f0 is " + f0.toString()); 
-    System.out.println("The fraction f1 is " + f1); // toString is implicit
-    System.out.println("The fraction f2 is " + f2);
+		else {
+			numerator = Integer.parseInt(Fraction);
+			denominator = 1;
+		}
 
-    /* Test methods on Fraction: add and evaluate. */
-    System.out.println("\nTesting add and evaluate:");
-    System.out.println("The floating point value of " + f1 + " is " + 
-		       f1.evaluate());
-    System.out.println("The floating point value of " + f2 + " is " +
-		       f2.evaluate());
+	}
 
-    /* 
-    Fraction sumOfTwo = _______________;
-    Fraction sumOfThree = ______________;
+	public String toString() {
+		long hcfValue = hcf(numerator, denominator);
+		if (numerator % hcfValue == 0)
+			numerator = numerator / hcfValue;
 
-    System.out.println("The sum of " + f1 + " and " + f2 + " is " + sumOfTwo);
-    System.out.println("The sum of " + f0 + ", " + f1 + " and " + f2 + " is "
-		       + sumOfThree);
-    */
+		// System.out.println(" num"+numerator);
+		if (denominator % hcfValue == 0)
+			denominator = denominator / hcfValue;
 
-    /* Test gcd function (static method). */
- 
-  }
+		// System.out.println(" denom "+denominator);
+		return (numerator + "/" + denominator);
+	}
+
+	public long getNumerator() {
+		return numerator;
+	}
+
+	public void setNumerator(long numerator) {
+		this.numerator = numerator;
+	}
+
+	public long getDenominator() {
+		return denominator;
+	}
+
+	public void setDenominator(long denominator) {
+		this.denominator = denominator;
+	}
+
+	public static long hcf(long x, long y) {
+		if (x != 0 && y != 0) {
+			long k = -1;
+			while (true) {
+				k = x % y;
+				if (k == 0)
+					break;
+				x = y;
+				y = k;
+			}
+			return y;
+		} else
+			return 1;
+
+	}
+
+	static private long lcm(long x, long y) {
+		/* Remove the following line. */
+		if (x != 0 && y != 0) {
+			long firstValue = x;
+			long secondValue = y;
+			return (firstValue * secondValue) / hcf(x, y);
+		} else
+			return 1;
+
+	}
+
+	public Fraction(long numerator, long denominator) {
+
+		this.numerator = numerator;
+		this.denominator = denominator;
+	}
+
+	public Fraction add(Fraction f2) {
+		Fraction f1 = this;
+		long finaDenominator = lcm(f1.getDenominator(), f2.getDenominator());
+		// System.out.println(finaDenominator);
+		long numerator1 = (finaDenominator / f1.denominator) * f1.getNumerator();
+		// System.out.println(numerator1);
+		long numerator2 = (finaDenominator / f2.denominator) * f2.getNumerator();
+		// System.out.println(numerator2);
+		long finalNumerator = numerator1 + numerator2;
+		// System.out.println(finalNumerator);
+		// System.out.println(finaDenominator);
+
+		return new Fraction(finalNumerator, finaDenominator);
+
+	}
+
+	public Fraction subtract(Fraction f2) {
+		Fraction f1 = this;
+		long finaDenominator = lcm(f1.getDenominator(), f2.getDenominator());
+		long numerator1 = (finaDenominator / f1.denominator) * f1.getNumerator();
+		long numerator2 = (finaDenominator / f2.denominator) * f2.getNumerator();
+		long finalNumerator = numerator1 - numerator2;
+		return new Fraction(finalNumerator, finaDenominator);
+
+	}
+
+	public Fraction multiply(Fraction f2) {
+		Fraction f1 = this;
+		long finaDenominator = f1.getDenominator() * f2.getDenominator();
+		long finalNumerator = f1.getNumerator() * f2.getNumerator();
+		return new Fraction(finalNumerator, finaDenominator);
+
+	}
+
+	public Fraction divide(Fraction f2) {
+
+		Fraction f1 = this;
+		Fraction result = null;
+
+		try {
+
+			long finaDenominator = -1;
+			long finalNumerator = -1;
+			if (f2.denominator != 0) {
+				finaDenominator = f1.getDenominator() * f2.getNumerator();
+				finalNumerator = f1.getNumerator() * f2.getDenominator();
+				result = new Fraction(finalNumerator, finaDenominator);
+
+			} else {
+
+				System.out.println(" fraction division exception");
+				result = null;
+			}
+
+		} catch (Exception e1) {
+			System.out.println(" fraction division exception");
+
+		}
+		return result;
+
+	}
+
+	/* private fields within a Fraction. */
+
+	public static void main(String[] argv) {
+
+		System.out.println(new Fraction("5/24").add(new Fraction("3/8")));
+
+		System.out.println(hcf(24, 8));
+
+	}
+
+	public int compareTo(Fraction fraction2) {
+
+		// TODO Auto-generated method stub
+		Fraction result = this.subtract(fraction2);
+
+		if (result.getNumerator() == 0)
+			return 0;
+		else if (result.getNumerator() > 0)
+			return 1;
+		else
+			return -1;
+
+	}
+
 }

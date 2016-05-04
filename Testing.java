@@ -1,31 +1,48 @@
+package P1Final;
 
-
-public class Testing {
-
-	  public static void main(String arg[]) throws Exception {
-	    System.out.println(encrypt("String"));
-
-	  }
-	  
-	  public Testing()
-	  {
-		 while(true)
-		 {
-			 System.out.println("hi");
-		 }
-	  }
+class temp
+{
 	
-	  public static byte[] encrypt(String x) throws Exception {
-	    java.security.MessageDigest d = null;
-	    d = java.security.MessageDigest.getInstance("SHA-1");
-	    d.reset();
-	    d.update(x.getBytes());
-	    return d.digest();
-	    
-}  
-	    
-	    
-	  }
-	  
-	  
+	 static int x=0;
 	
+	static int hode()
+	{
+		
+		System.out.println("parent");
+
+		return 0;
+	}
+}
+
+
+public class Testing   extends temp {
+	
+	
+	static int hode()
+	{
+		
+		System.out.println("child");
+		return 0;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		x++;
+		x=20;
+		x++;
+		
+		
+	 
+		temp t=	new Testing();
+	 
+	 System.out.println( x);
+		t.hode();
+		
+
+	}
+	
+	
+	
+
+}
