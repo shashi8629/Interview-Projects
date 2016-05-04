@@ -1,109 +1,108 @@
-import java.util.Vector;
+package T1;
 
-public class Solution implements Runnable {
+import java.util.Scanner;
 
-	private int numberOfPhiloshpher;
-	boolean lock = true;
-	private final Vector<Integer> status;
+public class Solution {
 
-	public Solution(int numberOfPhiloshpher) {
-		super();
-		status = new Vector<>();
-		this.numberOfPhiloshpher = numberOfPhiloshpher;
-		for (int i = 0; i < numberOfPhiloshpher; i++) {
-			status.addElement(0);
-		}
-		this.lock = true;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+
+	       Scanner scan = new Scanner(System.in);
+	       
+	      int t=  scan.nextInt();
+	      
+	      String [] arr = new String [t];
+	       
+	      
+	       
+	       for(int k =0 ;k<t;k++)
+	       {
+	    		   
+		   arr[k] =  scan.next();
+		   
+	    
+	       }
+	       
+	       
+	       for(int k =0 ;k<t;k++)
+	       {
+	    	
+	       
+	    	String    str=arr[k];
+		  
+		   if(checkpailindrome(str))
+			   System.out.println(-1);
+		   
+		   else
+		   {
+		   
+		   StringBuilder strb=  new StringBuilder(str);
+		   int i=-1;
+		   int j=-1;
+		   
+		   for(  i=0 ,j=str.length()-1 ; i<str.length()/2 ;i++,j--)
+		   {
+			    if( str.charAt(i)!= str.charAt(j))
+			    	
+			    {
+			    	
+			    //System.out.println( i+ " and "+ j);
+
+			    	break;
+			    	
+			    }
+			    	
+			   
+		   }
+		   
+		
+	  StringBuilder strb1=  new StringBuilder(str);
+		  strb.deleteCharAt(i);
+		  
+		 if(checkpailindrome(strb.toString()))
+			 System.out.println(i);
+           
+		 else
+			 
+		 {
+		 strb1.deleteCharAt(j); 
+		  if(checkpailindrome(strb1.toString()));
+			 System.out.println(j);
+			 
+		 }
+		 
+
+		   }
+		  
+		   }
+		  
+					  
+		
 	}
 
-	@Override
-	public void run() {
+	private static  boolean checkpailindrome(String str) 
+	{
+	
+		
+		  		 
+		boolean flag=true;
+		   
+		   for( int  i=0 ,j=str.length()-1 ; i<str.length()/2 ;i++,j--)
+		   {
+			    if( str.charAt(i)!= str.charAt(j))
+			    
+			    	
+			     flag=false;
+			    	
+			    
+			    	
+		   }
 
-		try {
-			while (true) {
-				Thread.sleep(10);
-				get_fork(Integer.parseInt(Thread.currentThread().getName()));
-				Thread.sleep(10);
-				release_fork(Integer.parseInt(Thread.currentThread().getName()));
-
-			}
-		} catch (Exception e1) {
-
-		}
+		   return flag;
+		
+	}		  
+		 
 	}
 
-	synchronized private void get_fork(int philospherNum) {
 
-		try {
-
-			synchronized (status) {
-				status.set(philospherNum, PhilospherStatus.HUNGRY);
-			}
-
-			System.out.println("philospher " + (philospherNum + 1) + " is hungry");
-
-			synchronized (this) {
-				while (!test(philospherNum)) {
-					System.out.println("waiting " + (philospherNum + 1));
-					wait();
-				}
-			}
-
-		}
-
-		catch (Exception e) {
-
-			System.out.println("get_fork_exception");
-			e.printStackTrace();
-		}
-
-	}
-
-	private boolean test(int philospherNum) {
-		int left = (philospherNum + numberOfPhiloshpher - 1) % numberOfPhiloshpher;
-		int right = (philospherNum + 1) % numberOfPhiloshpher;
-		if (status.get(philospherNum) == PhilospherStatus.HUNGRY && status.get(left) != PhilospherStatus.EATING
-				&& status.get(right) != PhilospherStatus.EATING) {
-			synchronized (status) {
-				status.set(philospherNum, PhilospherStatus.EATING);
-			}
-			try {
-			} catch (Exception e1) {
-
-			}
-
-			System.out.println(
-					"Philosopher " + (philospherNum + 1) + " takes fork " + (left + 1) + "and " + (right + 1) + " ");
-			System.out.println("Philosopher " + (philospherNum + 1) + " is Eating");
-
-			return true;
-		}
-
-		return false;
-	}
-
-	synchronized private void release_fork(int philospherNum) {
-
-		try {
-			synchronized (status) {
-
-				status.set(philospherNum, PhilospherStatus.THINKING);
-			}
-
-			int left = (philospherNum + numberOfPhiloshpher - 1) % numberOfPhiloshpher;
-			int right = (philospherNum + 1) % numberOfPhiloshpher;
-			System.out.println("Philosopher " + (philospherNum + 1) + " putting fork " + (left + 1) + " and "
-					+ (right + 1) + " down");
-			System.out.println("Philosopher " + (philospherNum + 1) + " is thinking");
-			synchronized (this) {
-				notifyAll();
-			}
-
-		} catch (Exception e) {
-			System.out.println(" release exception ");
-			e.printStackTrace();
-		}
-
-	}
-
-}
