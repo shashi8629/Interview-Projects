@@ -1,130 +1,53 @@
-import java.util.Stack;
+package HTTP1;
 
-import javax.swing.tree.VariableHeightLayoutCache;
-
-public class Test {
+public class Test implements Runnable {
 	
-	public static void main(String [] args )
-	{
-		int x=5;
+
+
+	
+
+	   public static void main(String[] args) {
+
+	   Thread t = Thread.currentThread();
+	   
+	   Thread t1 = new Thread(new Test());
+	   t1.start();
+	   
+	   Thread t2 = new Thread(new Test());
+	   t2.start();
+	   
+			   
+	   t.setName("Admin Thread");
+	   // set thread priority to 1
+	   t.setPriority(1);
+	     
+	   // prints the current thread
+	   System.out.println("Thread = " + t);
+	    
+	   int count = Thread.activeCount();
+	   System.out.println("currently active threads = " + count);
+	    
+	   Thread th[] = new Thread[count];
+	   // returns the number of threads put into the array 
+	   Thread.enumerate(th);
+	    
+	   // prints active threads
+	   for (int i = 0; i < count; i++) {
+	   System.out.println(i + ": " + th[i]);
+	   }
+	   }
+
+	@Override
+	public void run() {
 		
-	
-		
-
-	
-	
-	//public static  int  toBinary(int n) {
-	
-	
-	 char [] a ={'{','}','[',']'};
-	
-	 
-	 String str="{([})}";
-	 String str2="{}[][]{}";
-	 
-	 
-	 
-	System.out.println(varify(str2.toCharArray()));
-		
-		
-	}
-	
-	/*
-
-public static  int  toBinary(int n) {
-  
-    String binary = ""; 
-    while (n > 0) {
-        int rem = n % 2;
-        if(rem==0)
-        	rem=1;
-        else
-        	rem=0;
-        	
-        
-        binary = rem + binary;
- 
-        n = n / 2;
-    }
-    //return  Integer.parseInt(binary, 2);
-    
-    return 0;
-   
-}
-
-*/
-	
-	
-	
-	
-static boolean varify(char[] values )
-{
-	
-Stack<Character>s= new Stack<Character>();
-
-
-if(values.length>0)
-s.push(values[0]);
-else
-	return false;
-
-for(int i=1 ;i<values.length ;i++)
-{
-char a=values[i];
-switch(a)
-{
-
-case '{':
-s.push(a);
-
-break;
-case '}':
-	if(s.peek()=='{')
-	{
-		s.pop();	
-	
-	}
-
-break;
-
-case '[':
-s.push(a);
-break;
-
-case ']':
-	
-
-	if('['==s.peek())
-	{
-		s.pop();
+		while( true)
+		{
+			
+		}
+		// TODO Auto-generated method stub
 		
 	}
 	
-	
-	
-break;
-
-default:
-	break;
-}
-
-
-}
-
-
-//System.out.println(" stack size"+s.size());
-
-if(s.size()==0)
-	return true;
-else
-	return false;
-
-
-
-}
-
-
-
 
 
 }
