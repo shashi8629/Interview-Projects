@@ -1,28 +1,53 @@
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+package Practice;
+
+import java.util.Scanner;
 
 public class T1 {
-    public static void main(String[] args) throws Exception {
+	
+	public static  void  main ( String args [])
+	{
+		
+		int n =5;
+		int m= 7 ;
+		
+		
+		
+		 
+		for(int i=n;i>0 ;i--)
+		{
+			
+		int x= (i *(i-1))/2;
+		
+		System.out.println(" value "+x);
+		
+		if(x<=m)
+		{
+			
+			
+		 int z= n-i;
+		 
+		 if(x+z<=m)
+		 {
+			
+			System.out.println(i);
+			break;
+			
+	
+		 }
+		 else
+			 System.out.println(i-1);
+		     break;
+		
+			
+		}
+		
+		
+		
+		}
+		
+		
+		System.out.println(" ");
+		
+	}
 
-        final String host = "localhost";
-        final InetAddress inetAddress = InetAddress.getByName(host);
-        final String hostName = inetAddress.getHostName();
-        final List<Integer> openPorts = new ArrayList<Integer>();
-
-        // we begin at port 1 because port 0 is never used
-        Socket socket=null;
-        for (int port = 1; port <= 200; port++) {
-            try {
-                 socket = new Socket(hostName, port);
-                openPorts.add(port);
-            } catch (IOException e) {
-            } finally {
-            	
-                socket.close();
-            }
-        }
-    }
 }

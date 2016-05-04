@@ -1,8 +1,9 @@
 package Practice;
 
+
 import java.util.Scanner;
 
-public class Solution {
+public class Solution2 {
 
    public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -17,6 +18,8 @@ public class Solution {
 		   int  e= scan.nextInt();
            
 		 int a[] []  = new int [n] [n];
+		 
+		 int []  [] weights= new int [n][n];
     
 		 for(int i =0;i<e;i++)
 		 {
@@ -25,16 +28,21 @@ public class Solution {
 			 int s= scan.nextInt();
 			 a[l-1][s-1]=1;
 			 a[s-1][l-1]=1;
+			 weights[l-1][s-1]=scan.nextInt();
+			 weights[s-1][l-1]= weights[l-1][s-1];
+			 
 			 
 		 }
 		
+		 
+		 
 		 int  source= scan.nextInt();
 		  int []  MatrixVector = new int [a.length];
 		  int [] visited = new int [a.length];  
 		  //int source=0;  
     visited[source-1]=1;
     int count=1;
-    main(a,visited ,MatrixVector, count);
+    main(a,visited ,MatrixVector,  weights);
 	//System.out.println("  ");
 	  for(int i=0;i<MatrixVector.length;i++)
 		  if(i!=source-1)
@@ -50,7 +58,7 @@ public class Solution {
 	 
 	 
 	 
-	public  static void   main ( int[][] a  ,int [] visisted, int [] MatrixVector,int count )
+	public  static void   main ( int[][] a  ,int [] visisted, int [] MatrixVector,int [] []  weights )
 	{
 	
 		boolean flag=false;
@@ -68,7 +76,7 @@ public class Solution {
 					if(visisted[j]==0  && a[i][j]==1)
 					{
 						temp[j]=1;
-						MatrixVector[j]=count;
+						MatrixVector[j]= weights [i] [j];
 						flag=true;
 					}
 				  }
@@ -83,8 +91,11 @@ for (int i=0;i<visisted.length;i++)
 	 visisted[i] =temp[i];
 
 			if(flag)
-			   main(a,visisted,MatrixVector,count+1);
+			{
+				
+			}
 		
 	}
 	
 }
+
