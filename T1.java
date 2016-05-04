@@ -1,49 +1,28 @@
-package T1;
-
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class T1 {
+    public static void main(String[] args) throws Exception {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-int  a	[]={7,6,23,19,10,11,9,3,15};
-	//Output should be : 6 Pairs can be: 7,11 7,3 6,10 19,23 15,19 15,11
+        final String host = "localhost";
+        final InetAddress inetAddress = InetAddress.getByName(host);
+        final String hostName = inetAddress.getHostName();
+        final List<Integer> openPorts = new ArrayList<Integer>();
 
-
-int k=-4;
-findsolution(a,k);
-
-
-	}
-
-	private static void findsolution(int  [] a,int k) {
-		
-		Arrays.sort(a);
-		
-		for(int i=0;i<a.length;i++)
-			
-			System.out.print("  "+ a[i]);
-		
-		
-		int count=0;
-		int mid =a.length/2;
-		
-		for (int i=0;i<a.length ;i++)
-		{
-			int x= k+a[i];
-			int  number = Bsearch.bsearchFunction(a,0, a.length-1, x);
-		
-			if(number!=-1)
-			  System.out.println(" pair"+  a[i] +" and " +  a[number]);
-			
-
-		}
-		
-
-		// TODO Auto-generated method stub
-		
-	}
-
+        // we begin at port 1 because port 0 is never used
+        Socket socket=null;
+        for (int port = 1; port <= 200; port++) {
+            try {
+                 socket = new Socket(hostName, port);
+                openPorts.add(port);
+            } catch (IOException e) {
+            } finally {
+            	
+                socket.close();
+            }
+        }
+    }
 }
